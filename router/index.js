@@ -2,8 +2,6 @@ const Router = require('express').Router;
 
 const router = new Router();
 
-router.post('/registration', (req, res) => {
-  res.send('test');
-});
+router.post('/registration');
 
 module.exports = router;
