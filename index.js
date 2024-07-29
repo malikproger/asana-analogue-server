@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const router = require('./router');
 const { sequelize } = require('./models');
+const errorMiddleware = require('./middlewares/error-middleware');
 
 const HTTP_PORT = process.env.HTTP_PORT || 7570;
 const app = express();
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/', router);
+app.use(errorMiddleware);
 
 const httpServer = http.createServer(app);
 
