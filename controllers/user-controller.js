@@ -21,7 +21,27 @@ class UserController {
       });
 
       return res.json({ user, accessToken });
-    } catch (e) {}
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async login(req, res, next) {
+    try {
+      const { email, password } = req.body;
+      const { user, accessToken, refreshToken } = await userService.login(email, password);
+
+      res.cookie('refreshToken', refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+
+      return res.json({ user, accessToken });
+    } catch (e) {
+      next(e);
+    }
   }
 }
 

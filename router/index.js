@@ -11,5 +11,6 @@ router.post(
   body('password').isLength({ min: 6, max: 128 }),
   userController.registration,
 );
+router.post('/login', userController.login);
 
 module.exports = router;
