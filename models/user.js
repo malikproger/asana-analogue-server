@@ -20,15 +20,6 @@ module.exports = (sequelize) => {
     password: {
       type: DataTypes.STRING,
     },
-    workInterval: {
-      type: DataTypes.STRING,
-    },
-    breakInterval: {
-      type: DataTypes.STRING,
-    },
-    intervalsCount: {
-      type: DataTypes.STRING,
-    },
   });
 
   return User;
