@@ -24,3 +24,5 @@ class UserController {
     } catch (e) {}
   }
 }
+
+module.exports = new UserController();
