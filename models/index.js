@@ -20,4 +20,6 @@ sequelize
 
 module.exports = {
   sequelize,
+  User,
+  Token,
 };
