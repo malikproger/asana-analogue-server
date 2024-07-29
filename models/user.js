@@ -21,13 +21,15 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     workInterval: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.STRING,
     },
     breakInterval: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.STRING,
     },
     intervalsCount: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.STRING,
     },
   });
+
+  return User;
 };
