@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const router = require('./router');
+const { sequelize } = require('./models');
 
 const HTTP_PORT = process.env.HTTP_PORT || 7570;
 const app = express();
@@ -37,5 +38,6 @@ app.use('/', router);
 const httpServer = http.createServer(app);
 
 httpServer.listen(HTTP_PORT, async () => {
+  await sequelize.authenticate();
   console.log(`HTTP Server running on port ${HTTP_PORT}`);
 });
