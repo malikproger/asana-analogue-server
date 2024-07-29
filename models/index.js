@@ -6,6 +6,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   logging: false,
 });
 
+const User = require('./user')(sequelize);
+
 sequelize
   .sync()
   .then(() => console.log('Database & tables synced!'))

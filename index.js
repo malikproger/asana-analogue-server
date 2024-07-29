@@ -17,11 +17,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  const corsWhiteList = [
-    'https://asana-analogue.ru',
-    'https://app.asana-analogue.ru',
-    'https://localhost:5173',
-  ];
+  const corsWhiteList = ['https://localhost:5173'];
 
   if (corsWhiteList.includes(req.headers.origin)) {
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
