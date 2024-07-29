@@ -2,6 +2,7 @@ const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
+const tokenService = require('./token-service');
 
 class UserService {
   async registration(email, password) {
@@ -15,7 +16,10 @@ class UserService {
     const user = await User.create({ email, password: hashPassword });
 
     const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
 
-    return { user: userDto };
+    return { ...tokens, user: userDto };
   }
 }
+
+module.exports = new UserService();
