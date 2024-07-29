@@ -41,6 +41,11 @@ class UserService {
 
     return { ...tokens, user: userDto };
   }
+
+  async logout(refreshToken) {
+    const token = await tokenService.removeToken(refreshToken);
+    return token;
+  }
 }
 
 module.exports = new UserService();
