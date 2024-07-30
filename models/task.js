@@ -12,6 +12,9 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
     },
+    description: {
+      type: DataTypes.STRING,
+    },
     isCompleted: {
       type: DataTypes.BOOLEAN,
     },
