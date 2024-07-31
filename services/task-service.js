@@ -1,13 +1,13 @@
 const { Task } = require('../models');
 
 class TaskService {
-  async getAllTasks(userId) {
-    const tasks = await Task.getAll({ where: { userId } });
+  async getTasks(userId) {
+    const tasks = await Task.findAll({ where: { userId } });
     return tasks;
   }
 
-  async createTask(name, description, isCompleted) {
-    const createdTask = await Task.create({ name, description, isCompleted });
+  async createTask({ name, description, isCompleted, userId }) {
+    const createdTask = await Task.create({ name, description, isCompleted, userId });
     return createdTask;
   }
 
