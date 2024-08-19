@@ -17,6 +17,26 @@ module.exports = (sequelize) => {
     password: {
       type: DataTypes.STRING,
     },
+    vkUserId: {
+      type: DataTypes.BIGINT,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+    },
+    avatar: {
+      type: DataTypes.STRING(1000),
+    },
+    birthday: {
+      type: DataTypes.STRING,
+    },
+    isActivated: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
 
   return User;

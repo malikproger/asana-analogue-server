@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(2500),
       allowNull: false,
     },
+    deviceId: {
+      type: DataTypes.STRING(250),
+    },
   });
 
   return Token;

@@ -10,8 +10,12 @@ class UserController {
         return next(ApiError.BadRequest('Произошла ошибка при валидации данных', errors.array()));
       }
 
-      const { email, password } = req.body;
-      const { user, refreshToken, accessToken } = await userService.registration(email, password);
+      const { email, password, deviceId } = req.body;
+      const { user, refreshToken, accessToken } = await userService.registration(
+        email,
+        password,
+        deviceId,
+      );
 
       res.cookie('refreshToken', refreshToken, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -28,8 +32,12 @@ class UserController {
 
   async login(req, res, next) {
     try {
-      const { email, password } = req.body;
-      const { user, accessToken, refreshToken } = await userService.login(email, password);
+      const { email, password, deviceId } = req.body;
+      const { user, accessToken, refreshToken } = await userService.login(
+        email,
+        password,
+        deviceId,
+      );
 
       res.cookie('refreshToken', refreshToken, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -74,6 +82,73 @@ class UserController {
       });
 
       return res.json({ user, accessToken });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async loginVK(req, res, next) {
+    try {
+      const { code, state, deviceId } = req.body;
+      const { user, refreshToken, accessToken } = await userService.loginVK(code, state, deviceId);
+
+      res.cookie('refreshToken', refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      res.cookie('deviceId', deviceId, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+
+      return res.json({ user, accessToken });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async refreshVK(req, res, next) {
+    try {
+      const { refreshToken, deviceId } = req.cookies;
+      const {
+        user,
+        accessToken,
+        refreshToken: newRefreshToken,
+      } = await userService.refreshVK(refreshToken, deviceId);
+
+      res.cookie('refreshToken', newRefreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      res.cookie('deviceId', deviceId, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+
+      return res.json({ user, accessToken });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async logoutVK(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+
+      await userService.logoutVK(refreshToken);
+
+      res.clearCookie('refreshToken');
+      res.clearCookie('deviceId');
+
+      return res.status(204).end();
     } catch (e) {
       next(e);
     }

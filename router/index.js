@@ -17,6 +17,10 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
 
+router.post('/loginVK', userController.loginVK);
+router.get('/refreshVK', userController.refreshVK);
+router.post('/logoutVK', userController.logoutVK);
+
 router.get('/getTasks', authMiddleware, taskController.getTasks);
 router.post('/createTask', authMiddleware, taskController.createTask);
 router.delete('/deleteTask', authMiddleware, taskController.deleteTask);

@@ -13,7 +13,37 @@ const authMiddleware = async function (req, _, next) {
       return next(ApiError.UnauthorizedError());
     }
 
-    const userData = await tokenService.validateAccessToken(accessToken);
+    const isVKToken = accessToken?.slice(0, 2) === 'vk';
+
+    let userData = null;
+
+    if (isVKToken) {
+      const {
+        data: {
+          user: { user_id: vkUserId },
+        },
+      } = await axios.post(
+        'https://id.vk.com/oauth2/user_info',
+        {
+          client_id: process.env.VK_CLIENT_ID,
+          client_secret: process.env.VK_CLIENT_SECRET,
+          access_token: accessToken,
+        },
+        {
+          params: {
+            client_id: process.env.VK_CLIENT_ID,
+            client_secret: process.env.VK_CLIENT_SECRET,
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
+      userData = await userService.getVKUser(vkUserId);
+    } else {
+      userData = tokenService.validateAccessToken(accessToken);
+    }
 
     if (!userData) {
       return next(ApiError.UnauthorizedError());
